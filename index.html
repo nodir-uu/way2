@@ -11,10 +11,13 @@
   }
   body{margin:0;min-height:100vh;background:#f8f8f8;}
   .cw{padding:1.5rem;max-width:720px;margin:0 auto;font-family:var(--font-sans);background:#fff;border-radius:24px;box-shadow:0 24px 60px rgba(0,0,0,0.12)}
-  .header{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem}
+  .header{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-bottom:1.5rem}
   .logo{height:48px;width:auto;display:block}
   .logo-link{display:inline-flex;align-items:center}
   .ct{font-size:22px;font-weight:700;color:var(--color-text-primary);margin:0}
+  .lang-switch{display:flex;gap:8px;margin-left:auto}
+  .lang-btn{border:1px solid rgba(0,0,0,0.12);background:#fff;color:#1f1f1f;border-radius:8px;padding:8px 10px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+  .lang-btn.active{background:#C00000;color:#fff;border-color:#C00000}
   .cb{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
   @media(max-width:540px){.cb{grid-template-columns:1fr}}
   .cr{margin-bottom:1.3rem}
@@ -88,35 +91,39 @@
     <a class="logo-link" href="https://wayll.uz/en" target="_blank" rel="noopener noreferrer">
       <img class="logo" src="logo.jpg" alt="Way II logo">
     </a>
-    <p class="ct">Investment Calculator</p>
+    <p class="ct" id="title-text" data-i18n="calcTitle"></p>
+    <div class="lang-switch">
+      <button class="lang-btn active" id="lang-ru" type="button" data-lang="ru">RU</button>
+      <button class="lang-btn" id="lang-en" type="button" data-lang="en">EN</button>
+    </div>
   </div>
   <div class="cb">
     <div>
       <div class="cr">
-        <div class="rt"><span class="rl">Total investment</span><input class="rv" id="v-inv" type="number" min="1100" max="100000" step="100" value="1100"></div>
+        <div class="rt"><span class="rl" data-i18n="totalInvestment"></span><input class="rv" id="v-inv" type="number" min="1100" max="100000" step="100" value="1100"></div>
         <input type="range" id="r-inv" min="1100" max="100000" step="100" value="1100">
       </div>
       <div class="cr">
-        <div class="rt"><span class="rl">Rate of interest (p.a.)</span><input class="rv" id="v-rate" type="number" min="10" max="25" step="0.5" value="15"></div>
+        <div class="rt"><span class="rl" data-i18n="rateInterest"></span><input class="rv" id="v-rate" type="number" min="10" max="25" step="0.5" value="15"></div>
         <input type="range" id="r-rate" min="10" max="25" step="0.5" value="15">
       </div>
       <div class="cr">
-        <div class="rt"><span class="rl">Time period (years)</span><input class="rv" id="v-yrs" type="number" min="1" max="40" step="1" value="5"></div>
+        <div class="rt"><span class="rl" data-i18n="timePeriod"></span><input class="rv" id="v-yrs" type="number" min="1" max="40" step="1" value="5"></div>
         <input type="range" id="r-yrs" min="1" max="40" step="1" value="5">
       </div>
       <div class="trow">
         <label class="tog"><input type="checkbox" id="t-kids" checked><span class="tsl"></span></label>
-        <span class="rl">Monthly Contributions</span>
+        <span class="rl" data-i18n="monthlyContributions"></span>
       </div>
       <div id="kids-block">
         <div class="cr">
-          <div class="rt"><span class="rl">Monthly amount ($)</span><input class="rv" id="v-kids" type="number" min="110" max="1000" step="10" value="110"></div>
+          <div class="rt"><span class="rl" data-i18n="monthlyAmount"></span><input class="rv" id="v-kids" type="number" min="110" max="1000" step="10" value="110"></div>
           <input type="range" id="r-kids" min="110" max="1000" step="10" value="110">
         </div>
       </div>
       <div class="trow">
         <label class="tog"><input type="checkbox" id="t-reinv" checked><span class="tsl"></span></label>
-        <span class="rl">Reinvest dividends</span>
+        <span class="rl" data-i18n="reinvestDividends"></span>
       </div>
     </div>
 
@@ -124,40 +131,40 @@
       <div class="dw">
         <canvas id="dc"></canvas>
         <div class="center-label">
-          <span class="cl-sub">total value</span>
+          <span class="cl-sub" data-i18n="totalValue">totalValue"></span>
           <span class="cl-val" id="cl-val">—</span>
         </div>
       </div>
       <div class="leg">
-        <span><span class="ld" style="background:#D6A0A0"></span>Initial capital</span>
-        <span id="kl"><span class="ld" style="background:#E87070"></span>Monthly Contributions</span>
-        <span><span class="ld" style="background:#7B1010"></span>Dividends</span>
+        <span><span class="ld" style="background:#D6A0A0"></span><span data-i18n="initialCapital"></span></span>
+        <span id="kl"><span class="ld" style="background:#E87070"></span><span data-i18n="monthlyContributionsLegend"></span></span>
+        <span><span class="ld" style="background:#7B1010"></span><span data-i18n="dividends"></span></span>
       </div>
       <div class="res" id="res"></div>
-      <a class="btn" href="https://wayll.uz/en" target="_blank" rel="noopener">INVEST NOW →</a>
+      <a class="btn" id="invest-btn" href="https://wayll.uz/en" target="_blank" rel="noopener" data-i18n="investNow"></a>
     </div>
   </div>
 
   <div class="wrap">
 
     <div class="section">
-      <p class="sec-title">How it works</p>
+      <p class="sec-title" data-i18n="howItWorks"></p>
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
-          <div class="step-text">You invest in <b>USD</b> (converted from UZS at Central Bank rate on the day)</div>
+          <div class="step-text" data-i18n="step1"></div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
-          <div class="step-text">Akfa Aluminium pays <b>10-15% per year</b> — split into <b>2 payments</b> every 6 months</div>
+          <div class="step-text" data-i18n="step2"></div>
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <div class="step-text">You receive dividends in <b>UZS</b> (converted back at the rate on payment day)</div>
+          <div class="step-text" data-i18n="step3"></div>
         </div>
         <div class="step">
           <div class="step-num">4</div>
-          <div class="step-text">You choose: <b>withdraw</b> to your card or <b>reinvest</b> for compounding returns</div>
+          <div class="step-text" data-i18n="step4"></div>
         </div>
       </div>
     </div>
@@ -165,30 +172,30 @@
     <hr class="divider">
 
     <div class="section">
-      <p class="sec-title">Dividend formula</p>
+      <p class="sec-title" data-i18n="dividendFormula"></p>
       <div class="formula-box">
         <p class="formula">D = I × (R% ÷ 365) × P</p>
         <div class="vars">
-          <div class="var-row"><span class="var-key">D</span><span class="var-desc">— dividend you receive ($)</span></div>
-          <div class="var-row"><span class="var-key">I</span><span class="var-desc">— your investment amount ($)</span></div>
-          <div class="var-row"><span class="var-key">R</span><span class="var-desc">— annual interest rate (%)</span></div>
-          <div class="var-row"><span class="var-key">P</span><span class="var-desc">— number of days invested</span></div>
+          <div class="var-row"><span class="var-key">D</span><span class="var-desc" data-i18n="formulaD"></span></div>
+          <div class="var-row"><span class="var-key">I</span><span class="var-desc" data-i18n="formulaI"></span></div>
+          <div class="var-row"><span class="var-key">R</span><span class="var-desc" data-i18n="formulaR"></span></div>
+          <div class="var-row"><span class="var-key">P</span><span class="var-desc" data-i18n="formulaP"></span></div>
         </div>
       </div>
-      <p class="note">Use 366 instead of 365 for leap years (e.g. 2024).</p>
+      <p class="note" data-i18n="formulaNote"></p>
     </div>
 
     <hr class="divider">
 
     <div class="section">
-      <p class="sec-title">Example</p>
+      <p class="sec-title" data-i18n="exampleTitle"></p>
       <div class="example-box">
-        <div class="ex-row"><span class="ex-label">Investment</span><span class="ex-val">$5,500</span></div>
-        <div class="ex-row"><span class="ex-label">Start date</span><span class="ex-val">1 July 2026</span></div>
-        <div class="ex-row"><span class="ex-label">Days invested</span><span class="ex-val">184 days (Jul 1 → Dec 31)</span></div>
-        <div class="ex-row"><span class="ex-label">Used annual rate</span><span class="ex-val">15%</span></div>
-        <div class="ex-row"><span class="ex-label">Calculation</span><span class="ex-val">5,500 × (15% ÷ 366) × 184</span></div>
-        <div class="ex-row"><span class="ex-label">Dividend earned</span><span class="ex-val red">$415</span></div>
+        <div class="ex-row"><span class="ex-label" data-i18n="exampleInvestment"></span><span class="ex-val">$5,500</span></div>
+        <div class="ex-row"><span class="ex-label" data-i18n="exampleStartDate"></span><span class="ex-val" data-i18n="exampleStartDateValue"></span></div>
+        <div class="ex-row"><span class="ex-label" data-i18n="exampleDaysInvested"></span><span class="ex-val" data-i18n="exampleDaysInvestedValue"></span></div>
+        <div class="ex-row"><span class="ex-label" data-i18n="exampleRate"></span><span class="ex-val">15%</span></div>
+        <div class="ex-row"><span class="ex-label" data-i18n="exampleCalculation"></span><span class="ex-val">5,500 × (15% ÷ 366) × 184</span></div>
+        <div class="ex-row"><span class="ex-label" data-i18n="exampleDividend"></span><span class="ex-val red">$415</span></div>
       </div>
     </div>
 
@@ -199,6 +206,105 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const fmt = v => '$' + Math.round(v).toLocaleString();
+
+const translations = {
+  ru: {
+    calcTitle: 'Калькулятор инвестиций',
+    totalInvestment: 'Общая сумма инвестиций',
+    rateInterest: 'Процентная ставка (годовых)',
+    timePeriod: 'Срок (лет)',
+    monthlyContributions: 'Ежемесячные взносы',
+    monthlyAmount: 'Ежемесячно ($)',
+    reinvestDividends: 'Реинвестировать дивиденды',
+    totalValue: 'общая стоимость',
+    initialCapital: 'Начальный капитал',
+    monthlyContributionsLegend: 'Ежемесячные взносы',
+    dividends: 'Дивиденды',
+    investNow: 'ИНВЕСТИРОВАТЬ →',
+    howItWorks: 'Как это работает',
+    step1: 'Вы инвестируете в USD (переводится из UZS по курсу ЦБ в день сделки)',
+    step2: 'Akfa Aluminium выплачивает 10-15% в год — в 2 платежа каждые 6 месяцев',
+    step3: 'Вы получаете дивиденды в UZS (конвертация по курсу на день выплаты)',
+    step4: 'Вы выбираете: вывести на карту или реинвестировать для сложного дохода',
+    dividendFormula: 'Формула дивиденда',
+    formulaD: '— дивиденд, который вы получаете ($)',
+    formulaI: '— сумма инвестиций ($)',
+    formulaR: '— годовая ставка (%)',
+    formulaP: '— количество дней инвестиций',
+    formulaNote: 'Используйте 366 вместо 365 для високосных годов (например, 2024).',
+    exampleTitle: 'Пример',
+    exampleInvestment: 'Сумма инвестиций',
+    exampleStartDate: 'Дата начала',
+    exampleStartDateValue: '1 июля 2026',
+    exampleDaysInvested: 'Дней инвестировано',
+    exampleDaysInvestedValue: '184 дня (1 июля → 31 дек.)',
+    exampleRate: 'Используемая ставка',
+    exampleCalculation: 'Расчет',
+    exampleDividend: 'Заработано дивидендов',
+    tooltipDisclaimer: 'Отказ от ответственности: это только оценка. Ставки могут меняться, и результаты не являются юридически обязательными.',
+    totalInvested: 'Всего вложено',
+    totalDividends: 'Всего дивидендов',
+    totalValueSummary: 'Общая стоимость'
+  },
+  en: {
+    calcTitle: 'Investment Calculator',
+    totalInvestment: 'Total investment',
+    rateInterest: 'Rate of interest (p.a.)',
+    timePeriod: 'Time period (years)',
+    monthlyContributions: 'Monthly Contributions',
+    monthlyAmount: 'Monthly amount ($)',
+    reinvestDividends: 'Reinvest dividends',
+    totalValue: 'total value',
+    initialCapital: 'Initial capital',
+    monthlyContributionsLegend: 'Monthly Contributions',
+    dividends: 'Dividends',
+    investNow: 'INVEST NOW →',
+    howItWorks: 'How it works',
+    step1: 'You invest in USD (converted from UZS at Central Bank rate on the day)',
+    step2: 'Akfa Aluminium pays 10-15% per year — split into 2 payments every 6 months',
+    step3: 'You receive dividends in UZS (converted back at the rate on payment day)',
+    step4: 'You choose: withdraw to your card or reinvest for compounding returns',
+    dividendFormula: 'Dividend formula',
+    formulaD: '— dividend you receive ($)',
+    formulaI: '— your investment amount ($)',
+    formulaR: '— annual interest rate (%)',
+    formulaP: '— number of days invested',
+    formulaNote: 'Use 366 instead of 365 for leap years (e.g. 2024).',
+    exampleTitle: 'Example',
+    exampleInvestment: 'Investment',
+    exampleStartDate: 'Start date',
+    exampleStartDateValue: '1 July 2026',
+    exampleDaysInvested: 'Days invested',
+    exampleDaysInvestedValue: '184 days (Jul 1 → Dec 31)',
+    exampleRate: 'Used annual rate',
+    exampleCalculation: 'Calculation',
+    exampleDividend: 'Dividend earned',
+    tooltipDisclaimer: 'Disclaimer: these are estimates only. Interest rates can change and the results are not legally binding.',
+    totalInvested: 'Total invested',
+    totalDividends: 'Total dividends',
+    totalValueSummary: 'Total value'
+  }
+};
+
+let currentLang = 'ru';
+
+function translatePage() {
+  const translationsForLang = translations[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (!key || translationsForLang[key] == null) return;
+    el.innerHTML = translationsForLang[key];
+  });
+
+  document.getElementById('lang-ru').classList.toggle('active', currentLang === 'ru');
+  document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  translatePage();
+  update();
+}
 
 function clampNum(value, min, max) {
   return Math.min(Math.max(value, min), max);
@@ -283,6 +389,7 @@ function update(sourceId) {
   rKids.value = vKids.value;
 
   const d = calc();
+  const t = translations[currentLang];
 
   document.getElementById('kids-block').style.display = kidsOn ? 'block' : 'none';
   document.getElementById('kl').style.display = kidsOn ? 'flex' : 'none';
@@ -294,20 +401,25 @@ function update(sourceId) {
 
   const kidsLine = kidsOn ? `
     <div class="rindent">
-      <div class="rr"><span class="rlab">Initial capital</span><span class="rval">${fmt(d.inv)}</span></div>
-      <div class="rr"><span class="rlab">Monthly Contributions</span><span class="rval">${fmt(d.totalKids)}</span></div>
+      <div class="rr"><span class="rlab">${t.initialCapital}</span><span class="rval">${fmt(d.inv)}</span></div>
+      <div class="rr"><span class="rlab">${t.monthlyContributionsLegend}</span><span class="rval">${fmt(d.totalKids)}</span></div>
     </div>` : '';
 
   document.getElementById('res').innerHTML = `
-    <div class="rr"><span class="rlab strong">Total invested</span><span class="rval">${fmt(d.totalInvested)}</span></div>
+    <div class="rr"><span class="rlab strong">${t.totalInvested}</span><span class="rval">${fmt(d.totalInvested)}</span></div>
     ${kidsLine}
-    <div class="rr"><span class="rlab strong">Total dividends</span><span class="rval ret">${fmt(d.totalReturns)}</span></div>
-    <div class="total-value-summary"><span class="rlab"><span class="tooltip-icon">ⓘ<span class="tooltip-text">Disclaimer: these are estimates only. Interest rates can change and the results are not legally binding.</span></span></span> Total value<span class="rval">${fmt(d.totalVal)}</span></div>
+    <div class="rr"><span class="rlab strong">${t.totalDividends}</span><span class="rval ret">${fmt(d.totalReturns)}</span></div>
+    <div class="total-value-summary"><span class="rlab"><span class="tooltip-icon">ⓘ<span class="tooltip-text">${t.tooltipDisclaimer}</span></span></span> ${t.totalValueSummary}<span class="rval">${fmt(d.totalVal)}</span></div>
   `;
 }
 
 ['r-inv','r-rate','r-yrs','r-kids','v-inv','v-rate','v-yrs','v-kids','t-kids','t-reinv'].forEach(id => {
   document.getElementById(id).addEventListener('input', () => update(id));
 });
+
+document.getElementById('lang-ru').addEventListener('click', () => setLanguage('ru'));
+document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+
+translatePage();
 update();
 </script>
