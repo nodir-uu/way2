@@ -95,6 +95,7 @@
     <div class="lang-switch">
       <button class="lang-btn active" id="lang-ru" type="button" data-lang="ru">RU</button>
       <button class="lang-btn" id="lang-en" type="button" data-lang="en">EN</button>
+      <button class="lang-btn" id="lang-uz" type="button" data-lang="uz">UZ</button>
     </div>
   </div>
   <div class="cb">
@@ -131,7 +132,7 @@
       <div class="dw">
         <canvas id="dc"></canvas>
         <div class="center-label">
-          <span class="cl-sub" data-i18n="totalValue">totalValue"></span>
+          <span class="cl-sub" data-i18n="totalValue"></span>
           <span class="cl-val" id="cl-val">—</span>
         </div>
       </div>
@@ -283,6 +284,44 @@ const translations = {
     totalInvested: 'Total invested',
     totalDividends: 'Total dividends',
     totalValueSummary: 'Total value'
+  },
+  uz: {
+    calcTitle: 'Investitsiya kalkulyatori',
+    totalInvestment: 'Jami investitsiya',
+    rateInterest: 'Foiz stavkasi (yillik)',
+    timePeriod: 'Muddati (yil)',
+    monthlyContributions: 'Oylik to‘lovlar',
+    monthlyAmount: 'Oylik miqdor ($)',
+    reinvestDividends: 'Dividendlarni qayta sarmoyalash',
+    totalValue: 'umumiy qiymat',
+    initialCapital: 'Boshlang‘ich kapital',
+    monthlyContributionsLegend: 'Oylik to‘lovlar',
+    dividends: 'Dividendlar',
+    investNow: 'SARMOYA QILISH →',
+    howItWorks: 'Qanday ishlaydi',
+    step1: 'Siz USDda investitsiya qilasiz (savdo kuni CB kursi bo‘yicha UZSdan konvertatsiya qilinadi)',
+    step2: 'Akfa Aluminium yillik 10-15% to‘laydi — 6 oyda 2 marta bo‘linadi',
+    step3: 'Sizga dividendlar UZSda beriladi (to‘lov kuni kurs bo‘yicha konvertatsiya qilinadi)',
+    step4: 'Siz tanlaysiz: kartaga yechish yoki murakkab daromad uchun qayta sarmoyalash',
+    dividendFormula: 'Dividend formulasi',
+    formulaD: '— siz oladigan dividend ($)',
+    formulaI: '— investitsiya miqdori ($)',
+    formulaR: '— yillik foiz stavkasi (%)',
+    formulaP: '— investitsiya qilingan kunlar soni',
+    formulaNote: 'Keb yil uchun 365 o‘rniga 366-dan foydalaning (masalan, 2024).',
+    exampleTitle: 'Misol',
+    exampleInvestment: 'Investitsiya miqdori',
+    exampleStartDate: 'Boshlanish sanasi',
+    exampleStartDateValue: '2026 yil 1 iyul',
+    exampleDaysInvested: 'Investitsiya qilingan kunlar',
+    exampleDaysInvestedValue: '184 kun (1 iyul → 31 dek)',
+    exampleRate: 'Qabul qilingan stavka',
+    exampleCalculation: 'Hisoblash',
+    exampleDividend: 'Olingan dividend',
+    tooltipDisclaimer: 'Ogohlantirish: bu faqat taxmin. Foiz stavkalari o‘zgarishi mumkin va natijalar yuridik jihatdan majburiy emas.',
+    totalInvested: 'Jami sarmoya',
+    totalDividends: 'Jami dividend',
+    totalValueSummary: 'Jami qiymat'
   }
 };
 
@@ -298,6 +337,14 @@ function translatePage() {
 
   document.getElementById('lang-ru').classList.toggle('active', currentLang === 'ru');
   document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+  document.getElementById('lang-uz').classList.toggle('active', currentLang === 'uz');
+  document.getElementById('invest-btn').href = getSiteUrl(currentLang);
+}
+
+function getSiteUrl(lang) {
+  if (lang === 'en') return 'https://wayll.uz/en';
+  if (lang === 'ru') return 'https://wayll.uz/ru';
+  return 'https://wayll.uz/uz';
 }
 
 function setLanguage(lang) {
@@ -418,8 +465,7 @@ function update(sourceId) {
 });
 
 document.getElementById('lang-ru').addEventListener('click', () => setLanguage('ru'));
-document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
-
+document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));document.getElementById('lang-uz').addEventListener('click', () => setLanguage('uz'));
 translatePage();
 update();
 </script>
