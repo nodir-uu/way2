@@ -373,7 +373,7 @@ function calc() {
   for (let m = 1; m <= yrs * 12; m++) {
     if (kidsMo > 0) { balance += kidsMo; totalKids += kidsMo; }
     if (m % 6 === 0) {
-      const div = balance * (rate / 2) * 0.9;
+      const div = balance * (rate / 2);
       totalReturns += div;
       if (reinv) balance += div;
     }
