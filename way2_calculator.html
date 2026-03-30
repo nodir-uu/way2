@@ -1,0 +1,311 @@
+
+<style>
+  :root {
+    --font-sans: Inter, system-ui, sans-serif;
+    --color-text-primary: #1f1f1f;
+    --color-text-secondary: #6f6f6f;
+    --color-text-tertiary: #8f8f8f;
+    --color-background-secondary: #f7f3f3;
+    --color-border-tertiary: rgba(0,0,0,0.08);
+    --border-radius-lg: 16px;
+  }
+  body{margin:0;min-height:100vh;background:#f8f8f8;}
+  .cw{padding:1.5rem;max-width:720px;margin:0 auto;font-family:var(--font-sans);background:#fff;border-radius:24px;box-shadow:0 24px 60px rgba(0,0,0,0.12)}
+  .header{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem}
+  .logo{height:48px;width:auto;display:block}
+  .logo-link{display:inline-flex;align-items:center}
+  .ct{font-size:22px;font-weight:700;color:var(--color-text-primary);margin:0}
+  .cb{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+  @media(max-width:540px){.cb{grid-template-columns:1fr}}
+  .cr{margin-bottom:1.3rem}
+  .rt{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+  .rl{font-size:14px;color:var(--color-text-secondary)}
+  .rv{font-size:13px;font-weight:500;background:#fdecea;color:var(--color-text-primary);padding:3px 10px;border-radius:6px;min-width:72px;text-align:right;display:inline-flex;align-items:center;justify-content:flex-end}
+  input.rv{border:1px solid rgba(0,0,0,0.08);outline:none;width:auto;min-width:88px}
+  input[type=range]{width:100%;accent-color:#C00000}
+  .trow{display:flex;align-items:center;gap:10px;margin-bottom:1.1rem}
+  .tog{position:relative;width:40px;height:22px;flex-shrink:0}
+  .tog input{opacity:0;width:0;height:0}
+  .tsl{position:absolute;cursor:pointer;inset:0;background:#d4d4d4;border:1px solid #c0c0c0;border-radius:22px;transition:.2s}
+  .tsl:before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:white;border:1px solid #999;border-radius:50%;transition:.2s}
+  input:checked+.tsl{background:#C00000;border-color:#C00000}
+  input:checked+.tsl:before{transform:translateX(18px);border-color:#991a00}
+  .cs{display:flex;flex-direction:column;align-items:center;gap:1.2rem}
+  .dw{position:relative;width:180px;height:180px}
+  .dw canvas{width:180px!important;height:180px!important}
+  .center-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+  .cl-sub{font-size:10px;color:var(--color-text-tertiary);margin-bottom:2px}
+  .cl-val{font-size:16px;font-weight:500;color:#A32D2D}
+  .leg{display:flex;gap:14px;font-size:12px;color:var(--color-text-secondary);flex-wrap:wrap;justify-content:center}
+  .leg span{display:flex;align-items:center;gap:5px}
+  .ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+  .res{width:100%}
+  .rr{display:flex;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:14px}
+  .rr:last-child{border-bottom:none}
+  .rlab{color:var(--color-text-secondary)}
+  .rlab.strong{color:var(--color-text-primary);font-weight:500}
+  .rval{font-weight:500;color:var(--color-text-primary)}
+  .rval.ret{color:#7B1010;font-size:15px}
+  .rindent{padding-left:14px;border-left:2px solid var(--color-border-tertiary);margin:2px 0 2px 6px}
+  .rindent .rr{padding:5px 0;font-size:13px}
+  .rindent .rlab{color:var(--color-text-tertiary)}
+  .rindent .rval{color:var(--color-text-secondary);font-weight:400}
+  .total-value-summary{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;margin-top:0.9rem;background:rgba(248, 215, 217, 0.9);border-radius:14px;box-shadow:0 8px 20px rgba(0,0,0,0.05);font-size:15px;font-weight:600;color:#7B1010}
+  .total-value-summary .rlab{font-size:15px;color:#7B1010;display:flex;align-items:center;gap:6px}
+  .total-value-summary .rval{font-size:18px;color:#7B1010}
+  .tooltip-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#7B1010;color:white;font-size:13px;font-weight:700;cursor:default;position:relative}
+  .tooltip-icon:hover .tooltip-text{opacity:1;visibility:visible;transform:translateX(-50%) translateY(-6px)}
+  .tooltip-text{position:absolute;bottom:120%;left:50%;transform:translateX(-50%) translateY(0);background:rgba(0,0,0,0.85);color:white;font-size:11px;line-height:1.4;padding:10px 12px;border-radius:8px;white-space:normal;max-width:260px;min-width:220px;opacity:0;visibility:hidden;transition:opacity .15s ease,transform .15s ease;pointer-events:none;z-index:10}
+  .tooltip-text::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border-width:6px;border-style:solid;border-color:rgba(0,0,0,0.85) transparent transparent transparent}
+  .btn{width:100%;padding:12px;background:#C00000;color:white;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;letter-spacing:.4px;margin-top:.8rem;transition:background .15s;text-decoration:none}
+  .btn:hover{background:#991a00}
+  .wrap{padding:1.5rem;max-width:640px;margin:0 auto;font-family:var(--font-sans)}
+  .section{margin-bottom:1.8rem}
+  .sec-title{font-size:13px;font-weight:500;color:#A32D2D;text-transform:uppercase;letter-spacing:.6px;margin:0 0 .8rem}
+  .formula-box{background:#fdecea;border-left:3px solid #C00000;border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin-bottom:1rem}
+  .formula{font-size:18px;font-weight:500;color:#7B1010;letter-spacing:.5px;margin:0 0 .6rem}
+  .vars{display:flex;flex-direction:column;gap:4px}
+  .var-row{display:flex;gap:8px;font-size:13px}
+  .var-key{color:#A32D2D;font-weight:500;min-width:20px}
+  .var-desc{color:var(--color-text-secondary)}
+  .steps{display:flex;flex-direction:column;gap:10px}
+  .step{display:flex;gap:12px;align-items:flex-start}
+  .step-num{width:24px;height:24px;border-radius:50%;background:#C00000;color:white;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  .step-text{font-size:14px;color:var(--color-text-secondary);line-height:1.5}
+  .step-text b{color:var(--color-text-primary);font-weight:500}
+  .example-box{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:1rem 1.2rem}
+  .ex-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:14px}
+  .ex-row:last-child{border-bottom:none}
+  .ex-label{color:var(--color-text-secondary)}
+  .ex-val{font-weight:500;color:var(--color-text-primary)}
+  .ex-val.red{color:#7B1010;font-size:15px}
+  .divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0}
+  .note{font-size:12px;color:var(--color-text-tertiary);margin-top:.6rem}
+</style>
+
+<div class="cw">
+  <div class="header">
+    <a class="logo-link" href="https://wayll.uz/en" target="_blank" rel="noopener noreferrer">
+      <img class="logo" src="logo.jpg" alt="Way II logo">
+    </a>
+    <p class="ct">Investment Calculator</p>
+  </div>
+  <div class="cb">
+    <div>
+      <div class="cr">
+        <div class="rt"><span class="rl">Total investment</span><input class="rv" id="v-inv" type="number" min="1100" max="100000" step="100" value="1100"></div>
+        <input type="range" id="r-inv" min="1100" max="100000" step="100" value="1100">
+      </div>
+      <div class="cr">
+        <div class="rt"><span class="rl">Rate of interest (p.a.)</span><input class="rv" id="v-rate" type="number" min="10" max="25" step="0.5" value="15"></div>
+        <input type="range" id="r-rate" min="10" max="25" step="0.5" value="15">
+      </div>
+      <div class="cr">
+        <div class="rt"><span class="rl">Time period (years)</span><input class="rv" id="v-yrs" type="number" min="1" max="40" step="1" value="5"></div>
+        <input type="range" id="r-yrs" min="1" max="40" step="1" value="5">
+      </div>
+      <div class="trow">
+        <label class="tog"><input type="checkbox" id="t-kids" checked><span class="tsl"></span></label>
+        <span class="rl">Monthly Contributions</span>
+      </div>
+      <div id="kids-block">
+        <div class="cr">
+          <div class="rt"><span class="rl">Monthly amount ($)</span><input class="rv" id="v-kids" type="number" min="110" max="1000" step="10" value="110"></div>
+          <input type="range" id="r-kids" min="110" max="1000" step="10" value="110">
+        </div>
+      </div>
+      <div class="trow">
+        <label class="tog"><input type="checkbox" id="t-reinv" checked><span class="tsl"></span></label>
+        <span class="rl">Reinvest dividends</span>
+      </div>
+    </div>
+
+    <div class="cs">
+      <div class="dw">
+        <canvas id="dc"></canvas>
+        <div class="center-label">
+          <span class="cl-sub">total value</span>
+          <span class="cl-val" id="cl-val">—</span>
+        </div>
+      </div>
+      <div class="leg">
+        <span><span class="ld" style="background:#D6A0A0"></span>Initial capital</span>
+        <span id="kl"><span class="ld" style="background:#E87070"></span>Monthly Contributions</span>
+        <span><span class="ld" style="background:#7B1010"></span>Dividends</span>
+      </div>
+      <div class="res" id="res"></div>
+      <a class="btn" href="https://wayll.uz/en" target="_blank" rel="noopener">INVEST NOW →</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="section">
+      <p class="sec-title">How it works</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">You invest in <b>USD</b> (converted from UZS at Central Bank rate on the day)</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Akfa Aluminium pays <b>13.6% per year</b> — split into <b>2 payments</b> every 6 months</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">You receive dividends in <b>UZS</b> (converted back at the rate on payment day)</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">You choose: <b>withdraw</b> to your card or <b>reinvest</b> for compounding returns</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <p class="sec-title">Dividend formula</p>
+      <div class="formula-box">
+        <p class="formula">D = I × (13.6% ÷ 365) × P</p>
+        <div class="vars">
+          <div class="var-row"><span class="var-key">D</span><span class="var-desc">— dividend you receive ($)</span></div>
+          <div class="var-row"><span class="var-key">I</span><span class="var-desc">— your investment amount ($)</span></div>
+          <div class="var-row"><span class="var-key">P</span><span class="var-desc">— number of days invested</span></div>
+        </div>
+      </div>
+      <p class="note">Use 366 instead of 365 for leap years (e.g. 2024).</p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <p class="sec-title">Example</p>
+      <div class="example-box">
+        <div class="ex-row"><span class="ex-label">Investment</span><span class="ex-val">$5,500</span></div>
+        <div class="ex-row"><span class="ex-label">Start date</span><span class="ex-val">1 July 2024</span></div>
+        <div class="ex-row"><span class="ex-label">Days invested</span><span class="ex-val">184 days (Jul 1 → Dec 31)</span></div>
+        <div class="ex-row"><span class="ex-label">Calculation</span><span class="ex-val">5,500 × (13.6% ÷ 366) × 184</span></div>
+        <div class="ex-row"><span class="ex-label">Dividend earned</span><span class="ex-val red">$376</span></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const fmt = v => '$' + Math.round(v).toLocaleString();
+
+function clampNum(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function calc() {
+  const invEl    = document.getElementById('v-inv');
+  const rateEl   = document.getElementById('v-rate');
+  const yrsEl    = document.getElementById('v-yrs');
+  const kidsOn   = document.getElementById('t-kids').checked;
+  const kidsEl   = document.getElementById('v-kids');
+  const inv      = clampNum(+invEl.value || 0, +invEl.min, +invEl.max);
+  const rate     = clampNum(+rateEl.value || 0, +rateEl.min, +rateEl.max) / 100;
+  const yrs      = clampNum(+yrsEl.value || 0, +yrsEl.min, +yrsEl.max);
+  const kidsMo   = kidsOn ? clampNum(+kidsEl.value || 0, +kidsEl.min, +kidsEl.max) : 0;
+  const reinv    = document.getElementById('t-reinv').checked;
+
+  let balance = inv, totalKids = 0, totalReturns = 0;
+  for (let m = 1; m <= yrs * 12; m++) {
+    if (kidsMo > 0) { balance += kidsMo; totalKids += kidsMo; }
+    if (m % 6 === 0) {
+      const div = balance * (rate / 2) * 0.9;
+      totalReturns += div;
+      if (reinv) balance += div;
+    }
+  }
+  const totalInvested = inv + totalKids;
+  const totalVal = reinv ? balance : (totalInvested + totalReturns);
+  return { inv, totalKids: Math.round(totalKids), totalInvested: Math.round(totalInvested), totalReturns: Math.round(totalReturns), totalVal: Math.round(totalVal) };
+}
+
+const chart = new Chart(document.getElementById('dc').getContext('2d'), {
+  type: 'doughnut',
+  data: {
+    datasets: [{
+      data: [1100, 0, 0],
+      backgroundColor: ['#D6A0A0', '#E87070', '#7B1010'],
+      borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: false,
+    cutout: '68%',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => ' ' + fmt(c.raw) } }
+    }
+  }
+});
+
+function update(sourceId) {
+  const kidsOn = document.getElementById('t-kids').checked;
+  const rInv = document.getElementById('r-inv');
+  const rRate = document.getElementById('r-rate');
+  const rYrs = document.getElementById('r-yrs');
+  const rKids = document.getElementById('r-kids');
+  const vInv = document.getElementById('v-inv');
+  const vRate = document.getElementById('v-rate');
+  const vYrs = document.getElementById('v-yrs');
+  const vKids = document.getElementById('v-kids');
+
+  if (sourceId === 'r-inv') vInv.value = rInv.value;
+  else if (sourceId === 'v-inv') rInv.value = vInv.value;
+
+  if (sourceId === 'r-rate') vRate.value = rRate.value;
+  else if (sourceId === 'v-rate') rRate.value = vRate.value;
+
+  if (sourceId === 'r-yrs') vYrs.value = rYrs.value;
+  else if (sourceId === 'v-yrs') rYrs.value = vYrs.value;
+
+  if (sourceId === 'r-kids') vKids.value = rKids.value;
+  else if (sourceId === 'v-kids') rKids.value = vKids.value;
+
+  vInv.value = clampNum(+vInv.value || 0, +vInv.min, +vInv.max);
+  vRate.value = clampNum(+vRate.value || 0, +vRate.min, +vRate.max);
+  vYrs.value = clampNum(+vYrs.value || 0, +vYrs.min, +vYrs.max);
+  vKids.value = clampNum(+vKids.value || 0, +vKids.min, +vKids.max);
+
+  rInv.value = vInv.value;
+  rRate.value = vRate.value;
+  rYrs.value = vYrs.value;
+  rKids.value = vKids.value;
+
+  const d = calc();
+
+  document.getElementById('kids-block').style.display = kidsOn ? 'block' : 'none';
+  document.getElementById('kl').style.display = kidsOn ? 'flex' : 'none';
+
+  chart.data.datasets[0].data = [d.inv, d.totalKids, d.totalReturns];
+  chart.update();
+
+  document.getElementById('cl-val').textContent = fmt(d.totalVal);
+
+  const kidsLine = kidsOn ? `
+    <div class="rindent">
+      <div class="rr"><span class="rlab">Initial capital</span><span class="rval">${fmt(d.inv)}</span></div>
+      <div class="rr"><span class="rlab">Monthly Contributions</span><span class="rval">${fmt(d.totalKids)}</span></div>
+    </div>` : '';
+
+  document.getElementById('res').innerHTML = `
+    <div class="rr"><span class="rlab strong">Total invested</span><span class="rval">${fmt(d.totalInvested)}</span></div>
+    ${kidsLine}
+    <div class="rr"><span class="rlab strong">Total dividends</span><span class="rval ret">${fmt(d.totalReturns)}</span></div>
+    <div class="total-value-summary"><span class="rlab"><span class="tooltip-icon">ⓘ<span class="tooltip-text">Disclaimer: these are estimates only. Interest rates can change and the results are not legally binding.</span></span></span> Total value<span class="rval">${fmt(d.totalVal)}</span></div>
+  `;
+}
+
+['r-inv','r-rate','r-yrs','r-kids','v-inv','v-rate','v-yrs','v-kids','t-kids','t-reinv'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => update(id));
+});
+update();
+</script>
