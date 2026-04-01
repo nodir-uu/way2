@@ -24,7 +24,7 @@
   .rt{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
   .rl{font-size:14px;color:var(--color-text-secondary)}
   .rv{font-size:13px;font-weight:500;background:#fdecea;color:var(--color-text-primary);padding:3px 10px;border-radius:6px;min-width:72px;text-align:right;display:inline-flex;align-items:center;justify-content:flex-end}
-  input.rv{border:1px solid rgba(0,0,0,0.08);outline:none;width:auto;min-width:88px}
+  input.rv{border:1px solid rgba(0,0,0,0.08);outline:none;width:82px;min-width:82px}
   input[type=range]{width:100%;accent-color:#C00000}
   .trow{display:flex;align-items:center;gap:10px;margin-bottom:1.1rem}
   .tog{position:relative;width:40px;height:22px;flex-shrink:0}
@@ -101,15 +101,15 @@
   <div class="cb">
     <div>
       <div class="cr">
-        <div class="rt"><span class="rl" data-i18n="totalInvestment"></span><input class="rv" id="v-inv" type="number" min="1100" max="100000" step="50" value="1100" readonly></div>
+        <div class="rt"><span class="rl" data-i18n="totalInvestment"></span><input class="rv" id="v-inv" type="text" value="$1,100" readonly></div>
         <input type="range" id="r-inv" min="1100" max="100000" step="50" value="1100">
       </div>
       <div class="cr">
-        <div class="rt"><span class="rl" data-i18n="rateInterest"></span><input class="rv" id="v-rate" type="number" min="10" max="15" step="0.1" value="15" readonly></div>
+        <div class="rt"><span class="rl" data-i18n="rateInterest"></span><input class="rv" id="v-rate" type="text" value="15%" readonly></div>
         <input type="range" id="r-rate" min="10" max="15" step="0.1" value="15">
       </div>
       <div class="cr">
-        <div class="rt"><span class="rl" data-i18n="timePeriod"></span><input class="rv" id="v-yrs" type="number" min="1" max="40" step="0.5" value="5" readonly></div>
+        <div class="rt"><span class="rl" data-i18n="timePeriod"></span><input class="rv" id="v-yrs" type="text" value="5" readonly></div>
         <input type="range" id="r-yrs" min="1" max="40" step="0.5" value="5">
       </div>
       <div class="trow">
@@ -118,7 +118,7 @@
       </div>
       <div id="kids-block">
         <div class="cr">
-          <div class="rt"><span class="rl" data-i18n="monthlyAmount"></span><input class="rv" id="v-kids" type="number" min="110" max="1000" step="10" value="110" readonly></div>
+          <div class="rt"><span class="rl" data-i18n="monthlyAmount"></span><input class="rv" id="v-kids" type="text" value="$110" readonly></div>
           <input type="range" id="r-kids" min="110" max="1000" step="10" value="110">
         </div>
       </div>
@@ -358,15 +358,11 @@ function clampNum(value, min, max) {
 }
 
 function calc() {
-  const invEl    = document.getElementById('v-inv');
-  const rateEl   = document.getElementById('v-rate');
-  const yrsEl    = document.getElementById('v-yrs');
   const kidsOn   = document.getElementById('t-kids').checked;
-  const kidsEl   = document.getElementById('v-kids');
-  const inv      = +invEl.value || 0;
-  const rate     = (+rateEl.value || 0) / 100;
-  const yrs      = +yrsEl.value || 0;
-  const kidsMo   = kidsOn ? (+kidsEl.value || 0) : 0;
+  const inv      = +document.getElementById('r-inv').value || 0;
+  const rate     = (+document.getElementById('r-rate').value || 0) / 100;
+  const yrs      = +document.getElementById('r-yrs').value || 0;
+  const kidsMo   = kidsOn ? (+document.getElementById('r-kids').value || 0) : 0;
   const reinv    = document.getElementById('t-reinv').checked;
 
   let balance = inv, totalKids = 0, totalReturns = 0;
@@ -414,27 +410,15 @@ function update(sourceId) {
   const vYrs = document.getElementById('v-yrs');
   const vKids = document.getElementById('v-kids');
 
-  if (sourceId === 'r-inv') vInv.value = rInv.value;
-  else if (sourceId === 'v-inv') rInv.value = vInv.value;
+  rInv.value = clampNum(+rInv.value || 0, +rInv.min, +rInv.max);
+  rRate.value = clampNum(+rRate.value || 0, +rRate.min, +rRate.max);
+  rYrs.value = clampNum(+rYrs.value || 0, +rYrs.min, +rYrs.max);
+  rKids.value = clampNum(+rKids.value || 0, +rKids.min, +rKids.max);
 
-  if (sourceId === 'r-rate') vRate.value = rRate.value;
-  else if (sourceId === 'v-rate') rRate.value = vRate.value;
-
-  if (sourceId === 'r-yrs') vYrs.value = rYrs.value;
-  else if (sourceId === 'v-yrs') rYrs.value = vYrs.value;
-
-  if (sourceId === 'r-kids') vKids.value = rKids.value;
-  else if (sourceId === 'v-kids') rKids.value = vKids.value;
-
-  vInv.value = clampNum(+vInv.value || 0, +vInv.min, +vInv.max);
-  vRate.value = clampNum(+vRate.value || 0, +vRate.min, +vRate.max);
-  vYrs.value = clampNum(+vYrs.value || 0, +vYrs.min, +vYrs.max);
-  vKids.value = clampNum(+vKids.value || 0, +vKids.min, +vKids.max);
-
-  rInv.value = vInv.value;
-  rRate.value = vRate.value;
-  rYrs.value = vYrs.value;
-  rKids.value = vKids.value;
+  vInv.value = '$' + Math.round(+rInv.value).toLocaleString();
+  vRate.value = (+rRate.value).toLocaleString(undefined, { maximumFractionDigits: 1 }) + '%';
+  vYrs.value = (+rYrs.value).toLocaleString(undefined, { maximumFractionDigits: 1 });
+  vKids.value = '$' + Math.round(+rKids.value).toLocaleString();
 
   const d = calc();
   const t = translations[currentLang];
