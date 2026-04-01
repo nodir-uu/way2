@@ -94,10 +94,12 @@
   /* Mobile optimizations */
   @media(max-width:540px){
     .cw{padding:1rem;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.08)}
-    .header{flex-direction:column;gap:10px;margin-bottom:1rem}
-    .logo{height:100px}
-    .ct{font-size:18px}
-    .lang-switch{width:100%;justify-content:center}
+    .header{flex-direction:row;align-items:flex-start;gap:10px;row-gap:2px;margin-bottom:1rem;flex-wrap:wrap}
+    .logo-link{order:1;align-self:flex-start;margin-top:-4px}
+    .logo{height:120px}
+    .ct{order:3;font-size:18px;flex:0 0 100%;margin-top:-12px}
+    .lang-switch{order:2;width:auto;justify-content:flex-end;margin-left:auto;align-self:flex-start}
+    .lang-btn{padding:6px 8px;font-size:11px}
     input.rv{width:70px;min-width:70px}
     .dw{width:150px;height:150px}
     .dw canvas{width:150px!important;height:150px!important}
@@ -113,7 +115,7 @@
     .rl{font-size:13px}
     .lang-btn{padding:6px 8px;font-size:11px}
     input.rv{width:60px;min-width:60px}
-    .logo{height:80px}
+    .logo{height:95px}
     .dw{width:130px;height:130px}
     .dw canvas{width:130px!important;height:130px!important}
   }
