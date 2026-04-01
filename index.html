@@ -1,5 +1,11 @@
 
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Calculator</title>
+  <style>
   :root {
     --font-sans: Inter, system-ui, sans-serif;
     --color-text-primary: #1f1f1f;
@@ -84,7 +90,35 @@
   .ex-val.red{color:#7B1010;font-size:15px}
   .divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0}
   .note{font-size:12px;color:var(--color-text-tertiary);margin-top:.6rem}
-</style>
+  
+  /* Mobile optimizations */
+  @media(max-width:540px){
+    .cw{padding:1rem;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+    .header{flex-direction:column;gap:10px;margin-bottom:1rem}
+    .logo{height:60px}
+    .ct{font-size:18px}
+    .lang-switch{width:100%;justify-content:center}
+    input.rv{width:70px;min-width:70px}
+    .dw{width:150px;height:150px}
+    .dw canvas{width:150px!important;height:150px!important}
+    .cl-val{font-size:14px}
+    .leg{font-size:11px;gap:8px}
+    .wrap{padding:1rem}
+    .cb{gap:1.2rem}
+  }
+  
+  @media(max-width:380px){
+    .cw{padding:0.8rem}
+    .ct{font-size:16px}
+    .rl{font-size:13px}
+    .lang-btn{padding:6px 8px;font-size:11px}
+    input.rv{width:60px;min-width:60px}
+    .dw{width:130px;height:130px}
+    .dw canvas{width:130px!important;height:130px!important}
+  }
+  </style>
+</head>
+<body>
 
 <div class="cw">
   <div class="header">
@@ -454,3 +488,6 @@ document.getElementById('lang-en').addEventListener('click', () => setLanguage('
 translatePage();
 update();
 </script>
+
+</body>
+</html>
