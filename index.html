@@ -34,8 +34,8 @@
   input:checked+.tsl{background:#C00000;border-color:#C00000}
   input:checked+.tsl:before{transform:translateX(18px);border-color:#991a00}
   .cs{display:flex;flex-direction:column;align-items:center;gap:1.2rem}
-  .dw{position:relative;width:180px;height:180px}
-  .dw canvas{width:180px!important;height:180px!important}
+  .dw{position:relative;width:180px;height:180px;overflow:visible}
+  .dw canvas{display:block;width:180px!important;height:180px!important}
   .center-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
   .cl-sub{font-size:10px;color:var(--color-text-tertiary);margin-bottom:2px}
   .cl-val{font-size:16px;font-weight:500;color:#A32D2D}
@@ -105,8 +105,8 @@
         <input type="range" id="r-inv" min="1100" max="100000" step="50" value="1100">
       </div>
       <div class="cr">
-        <div class="rt"><span class="rl" data-i18n="rateInterest"></span><input class="rv" id="v-rate" type="number" min="10" max="25" step="0.1" value="15" readonly></div>
-        <input type="range" id="r-rate" min="10" max="25" step="0.1" value="15">
+        <div class="rt"><span class="rl" data-i18n="rateInterest"></span><input class="rv" id="v-rate" type="number" min="10" max="15" step="0.1" value="15" readonly></div>
+        <input type="range" id="r-rate" min="10" max="15" step="0.1" value="15">
       </div>
       <div class="cr">
         <div class="rt"><span class="rl" data-i18n="timePeriod"></span><input class="rv" id="v-yrs" type="number" min="1" max="40" step="0.5" value="5" readonly></div>
@@ -130,10 +130,10 @@
 
     <div class="cs">
       <div class="dw">
-        <canvas id="dc"></canvas>
+        <canvas id="dc" width="180" height="180"></canvas>
         <div class="center-label">
           <span class="cl-sub" data-i18n="totalValue"></span>
-          <span class="cl-val" id="cl-val">—</span>
+          <span class="cl-val" id="cl-val">$0</span>
         </div>
       </div>
       <div class="leg">
@@ -217,7 +217,7 @@ const translations = {
     monthlyContributions: 'Ежемесячные взносы',
     monthlyAmount: 'Ежемесячно ($)',
     reinvestDividends: 'Реинвестировать дивиденды',
-    totalValue: 'Суммарная доходность',
+    totalValue: 'Суммарная Доходность',
     initialCapital: 'Начальный капитал',
     monthlyContributionsLegend: 'Ежемесячные взносы',
     dividends: 'Дивиденды',
@@ -245,7 +245,7 @@ const translations = {
     tooltipDisclaimer: 'Отказ от ответственности: это только оценка. Ставки могут меняться, и результаты не являются юридически обязательными.',
     totalInvested: 'Всего вложено',
     totalDividends: 'Всего дивидендов',
-    totalValueSummary: 'Суммарная доходность'
+    totalValueSummary: 'Суммарная Доходность'
   },
   en: {
     calcTitle: 'Investment Calculator',
@@ -293,7 +293,7 @@ const translations = {
     monthlyContributions: 'Oylik to‘lovlar',
     monthlyAmount: 'Oylik miqdor ($)',
     reinvestDividends: 'Dividendlarni qayta sarmoyalash',
-    totalValue: 'umumiy qiymat',
+    totalValue: 'Jami Qiymat',
     initialCapital: 'Boshlang‘ich kapital',
     monthlyContributionsLegend: 'Oylik to‘lovlar',
     dividends: 'Dividendlar',
@@ -321,7 +321,7 @@ const translations = {
     tooltipDisclaimer: 'Ogohlantirish: bu faqat taxmin. Foiz stavkalari o‘zgarishi mumkin va natijalar yuridik jihatdan majburiy emas.',
     totalInvested: 'Jami sarmoya',
     totalDividends: 'Jami dividend',
-    totalValueSummary: 'Jami qiymat'
+    totalValueSummary: 'Jami Qiymat'
   }
 };
 
@@ -395,6 +395,7 @@ const chart = new Chart(document.getElementById('dc').getContext('2d'), {
   options: {
     responsive: false,
     cutout: '68%',
+    layout: { padding: 2 },
     plugins: {
       legend: { display: false },
       tooltip: { callbacks: { label: c => ' ' + fmt(c.raw) } }
